@@ -26,7 +26,7 @@
         }
 
         /* -------------------------------------------------- */
-        /* PANTALLA DEL SOBRE ANIMADO Y BRILLANTE */
+        /* PANTALLA DEL SOBRE ANIMADO */
         /* -------------------------------------------------- */
         #pantalla-sobre {
             position: fixed;
@@ -79,7 +79,7 @@
             z-index: 3;
         }
 
-        /* Sello central con la inicial T en Serif Elegante */
+        /* Sello central con la inicial T */
         .stamp {
             position: absolute;
             width: 58px;
@@ -90,7 +90,7 @@
             justify-content: center;
             align-items: center;
             color: #4A3B00;
-            font-family: 'Playfair Display', serif; /* Tipografía Serif Romana Clasica */
+            font-family: 'Playfair Display', serif;
             font-size: 2rem;
             font-weight: 700;
             box-shadow: 0 4px 10px rgba(0,0,0,0.15), inset 0 0 6px #ffffff;
@@ -214,9 +214,22 @@
             font-size: 1.6rem;
             font-weight: bold;
         }
+
+        /* Carrusel de fotos */
+        .carousel-item img {
+            height: 400px;
+            object-fit: cover;
+            border-radius: 15px;
+        }
     </style>
 </head>
 <body>
+
+    <!-- REPRODUCTOR DE MÚSICA (OCULTO) -->
+    <audio id="musica-fondo" loop>
+        <source src="cancion.mp3" type="audio/mpeg">
+        Tu navegador no soporta reproducción de audio.
+    </audio>
 
     <!-- PANTALLA INICIAL DEL SOBRE -->
     <div id="pantalla-sobre" onclick="abrirSobre()">
@@ -252,13 +265,43 @@
         <!-- CONTENIDO DE SECCIONES -->
         <div class="container py-5" style="max-width: 800px;">
 
+            <!-- CARRUSEL DE FOTOS -->
+            <div class="card-custom text-center">
+                <h2 class="titulo-seccion">Galería de Fotos</h2>
+                <div id="carruselXV" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carruselXV" data-bs-slide-to="0" class="active"></button>
+                        <button type="button" data-bs-target="#carruselXV" data-bs-slide-to="1"></button>
+                        <button type="button" data-bs-target="#carruselXV" data-bs-slide-to="2"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <!-- Cambia estas URL por las fotos reales de Tania Abigail -->
+                        <div class="carousel-item active">
+                            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80" class="d-block w-100" alt="Foto 1">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80" class="d-block w-100" alt="Foto 2">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80" class="d-block w-100" alt="Foto 3">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carruselXV" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carruselXV" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                </div>
+            </div>
+
             <!-- Padres y Padrinos -->
             <div class="card-custom text-center">
                 <h2 class="titulo-seccion">Con la bendición de</h2>
                 <div class="row mt-4">
                     <div class="col-md-6 mb-3">
                         <h5 style="color: var(--blush-oscuro);">Mis Padres</h5>
-                        <p>Juan Manuel Flores Guerra<br>Irais Martinez Cruz</p>
+                        <p>Juan Mannuel Flores Guerra<br>Irais Martinez Cruz</p>
                     </div>
                     <div class="col-md-6 mb-3">
                         <h5 style="color: var(--blush-oscuro);">Mis Padrinos</h5>
@@ -306,7 +349,7 @@
             <div class="card-custom text-center" style="background: var(--blush-principal); color: white;">
                 <h2 class="titulo-seccion" style="color: white;">Confirmación de Asistencia</h2>
                 <p>Por favor confirma tu asistencia antes del 15 de Diciembre de 2026 para esperarte con mucho gusto.</p>
-                <a href="https://wa.me/525576206161?text=Hola!%20Confirmo%20mi%20asistencia%20para%20los%20XV%20de%20Tania%20Abigail" class="btn-accion" style="background-color: white; color: var(--blush-oscuro); border-color: white;">
+                <a href="https://wa.me/525576206161?text=Hola!%20Confirmo%20mi%20asistencia%20para%20los%20XV%20de%20Tania%20Abigail" target="_blank" class="btn-accion" style="background-color: white; color: var(--blush-oscuro); border-color: white;">
                     Confirmar por WhatsApp
                 </a>
             </div>
@@ -314,12 +357,21 @@
         </div>
     </main>
 
+    <!-- Bootstrap JS para el carrusel -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <!-- SCRIPTS -->
     <script>
-        // Función para abrir el sobre
+        // Función para abrir el sobre y reproducir la música
         function abrirSobre() {
             const sobre = document.getElementById("pantalla-sobre");
             sobre.classList.add("open");
+
+            // Reproducir música al interactuar con el sobre
+            const musica = document.getElementById("musica-fondo");
+            musica.play().catch(error => {
+                console.log("Error al reproducir audio automáticamente:", error);
+            });
         }
 
         // Cuenta Regresiva (16 de Enero de 2027 a las 18:00 hrs)
