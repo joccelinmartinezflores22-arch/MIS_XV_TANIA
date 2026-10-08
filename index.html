@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mis XV Años - Tannia Abigail</title>
+    <title>Mis XV Años - Tania Abigail</title>
     <!-- Fuentes Elegantes -->
     <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Montserrat:wght@300;400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <style>
         :root {
             --blush-principal: #DEA5A4;  /* Color Blush / Rosa Palo */
@@ -20,9 +21,104 @@
             font-family: 'Montserrat', sans-serif;
             background-color: var(--blush-suave);
             color: var(--texto-oscuro);
+            margin: 0;
+            overflow-x: hidden;
         }
 
-        /* Hero / Portada */
+        /* -------------------------------------------------- */
+        /* PANTALLA DEL SOBRE ANIMADO */
+        /* -------------------------------------------------- */
+        #pantalla-sobre {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle, #FAF0F0 0%, #E8C3C2 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease, visibility 1s ease;
+            cursor: pointer;
+        }
+
+        /* Contenedor del Sobre */
+        .envelope-wrapper {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background: linear-gradient(135deg, #E6ACAC 0%, #C28483 50%, #F5C5C4 100%);
+            border-radius: 10px;
+            box-shadow: 0 15px 35px rgba(194, 132, 131, 0.4), inset 0 0 15px rgba(255, 255, 255, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Tapa del sobre */
+        .envelope-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 110px solid #D89897;
+            transform-origin: top;
+            transition: transform 0.6s ease;
+            z-index: 3;
+        }
+
+        /* Sello dorado central */
+        .stamp {
+            position: absolute;
+            width: 55px;
+            height: 55px;
+            background: radial-gradient(circle, #FFE58F 0%, #D4AF37 100%);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #000;
+            font-family: 'Alex Brush', cursive;
+            font-size: 1.8rem;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2), inset 0 0 5px #fff;
+            z-index: 4;
+            transition: transform 0.4s ease;
+        }
+
+        /* Animación de apertura */
+        #pantalla-sobre.open .envelope-wrapper::before {
+            transform: rotateX(180deg);
+        }
+
+        #pantalla-sobre.open {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .instruccion-abrir {
+            margin-top: 30px;
+            color: var(--blush-oscuro);
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 2px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        /* -------------------------------------------------- */
+        /* ESTILOS DE LA INVITACIÓN */
+        /* -------------------------------------------------- */
         .hero {
             background: linear-gradient(rgba(194, 132, 131, 0.55), rgba(222, 165, 164, 0.75)), 
                         url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80');
@@ -51,7 +147,6 @@
             font-size: 1.1rem;
         }
 
-        /* Tarjetas de Secciones */
         .card-custom {
             background: white;
             border: none;
@@ -68,7 +163,6 @@
             margin-bottom: 20px;
         }
 
-        /* Botones estilo elegante */
         .btn-accion {
             background-color: var(--blush-principal);
             color: white;
@@ -86,7 +180,6 @@
             color: white;
         }
 
-        /* Cuenta Regresiva */
         .countdown-box {
             display: flex;
             justify-content: center;
@@ -114,94 +207,112 @@
 </head>
 <body>
 
-    <!-- PORTADA -->
-    <section class="hero">
-        <div>
-            <p class="subtitulo">Te invito a mis XV Años</p>
-            <h1 class="nombre-quinceanera">Tania Abigail</h1>
-            <p class="fs-5">Flores Martínez</p>
-            <hr style="border-color: #ffffff; width: 40%; margin: 20px auto; opacity: 0.8;">
-            <p class="fst-italic px-3">"Dicen que los mejores recuerdos son los que creamos con las personas que amamos. Ven a hacer de mis XV años un recuerdo inolvidable."</p>
-            
-            <p class="fw-bold mt-4 mb-1" style="letter-spacing: 2px;">SÁBADO, 16 DE ENERO DE 2027</p>
-
-            <!-- Cuenta Regresiva -->
-            <div class="countdown-box" id="countdown">
-                <div class="time-card"><span id="days">00</span>Días</div>
-                <div class="time-card"><span id="hours">00</span>Horas</div>
-                <div class="time-card"><span id="minutes">00</span>Min</div>
-                <div class="time-card"><span id="seconds">00</span>Seg</div>
-            </div>
+    <!-- PANTALLA INICIAL DEL SOBRE -->
+    <div id="pantalla-sobre" onclick="abrirSobre()">
+        <div class="envelope-wrapper">
+            <div class="stamp">J</div>
         </div>
-    </section>
-
-    <!-- CONTENIDO PRINCIPAL -->
-    <div class="container py-5" style="max-width: 800px;">
-
-        <!-- Padres y Padrinos -->
-        <div class="card-custom text-center">
-            <h2 class="titulo-seccion">Con la bendición de</h2>
-            <div class="row mt-4">
-                <div class="col-md-6 mb-3">
-                    <h5 style="color: var(--blush-oscuro);">Mis Padres</h5>
-                    <p>Juan Manuel Flores Guerra<br>Irais Martinez Cruz</p>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <h5 style="color: var(--blush-oscuro);">Mis Padrinos</h5>
-                    <p>Felix Gonzalez Sarmiento<br>Melina Monserrat Flores Guerra</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Ubicaciones -->
-        <div class="card-custom text-center">
-            <h2 class="titulo-seccion">Dónde y Cuándo</h2>
-            
-            <div class="my-4">
-                <h4>⛪ Ceremonia Religiosa</h4>
-                <p class="mb-1"><strong>Parroquia de la Divina Providencia</strong></p>
-                <p class="text-muted">C.Azucena 42S, Tamaulipas, 57300 Cdad. Nezahualcóyotl, Méx.<br>18:00 hrs</p>
-                <a href="https://maps.app.goo.gl/HHgoZ1aY2Cvcrcri8" target="_blank" class="btn-accion">Ver en Google Maps</a>
-            </div>
-
-            <hr style="border-color: #f0f0f0;">
-
-            <div class="my-4">
-                <h4>🎉 Recepción</h4>
-                <p class="mb-1"><strong>Salón de Eventos "Villa ARIZONA Plus"</strong></p>
-                <p class="text-muted">Av. Nezahualcóyotl 630, Tamaulipas, 57300 Cdad. Nezahualcóyotl, Méx.<br>19:30 hrs</p>
-                <a href="https://maps.app.goo.gl/P7Hg4dN1gZYd1kyx8" target="_blank" class="btn-accion">Ver en Google Maps</a>
-            </div>
-        </div>
-
-        <!-- Dress Code -->
-        <div class="card-custom text-center">
-            <h2 class="titulo-seccion">Código de Vestimenta</h2>
-            <p class="fs-4">👗 Formal / Etiqueta</p>
-            <p class="text-muted">Nos reservamos el color <strong>Blush / Rosa Palo</strong> para la quinceañera.</p>
-        </div>
-
-        <!-- Mesa de Regalos / Lluvia de Sobres -->
-        <div class="card-custom text-center">
-            <h2 class="titulo-seccion">Mesa de Regalos</h2>
-            <p>El mejor regalo es tu presencia, pero si deseas hacerme un presente, puedes considerar la opción de lluvia de sobres o transferencia.</p>
-            <p class="fw-bold" style="color: var(--blush-oscuro);">✉️ Lluvia de Sobres en la Recepción</p>
-        </div>
-
-        <!-- Confirmación de Asistencia -->
-        <div class="card-custom text-center" style="background: var(--blush-principal); color: white;">
-            <h2 class="titulo-seccion" style="color: white;">Confirmación de Asistencia</h2>
-            <p>Por favor confirma tu asistencia antes del 15 de Diciembre de 2026 para esperarte con mucho gusto.</p>
-            <a href="https://wa.me/521XXXXXXXXXX?text=Hola!%20Confirmo%20mi%20asistencia%20para%20los%20XV%20de%20Jimena" class="btn-accion" style="background-color: white; color: var(--blush-oscuro); border-color: white;">
-                Confirmar por WhatsApp
-            </a>
-        </div>
-
+        <p class="instruccion-abrir">✨ Haz clic en el sobre para abrir tu invitación ✨</p>
     </div>
 
-    <!-- Script para la Cuenta Regresiva al 16 de Enero de 2027 -->
+    <!-- INVITACIÓN PRINCIPAL -->
+    <main id="contenido-invitacion">
+        <!-- PORTADA -->
+        <section class="hero">
+            <div>
+                <p class="subtitulo">Te invito a mis XV Años</p>
+                <h1 class="nombre-quinceanera">Tania Abigail</h1>
+                <p class="fs-5">Flores Martínez</p>
+                <hr style="border-color: #ffffff; width: 40%; margin: 20px auto; opacity: 0.8;">
+                <p class="fst-italic px-3">"Dicen que los mejores recuerdos son los que creamos con las personas que amamos. Ven a hacer de mis XV años un recuerdo inolvidable."</p>
+                
+                <p class="fw-bold mt-4 mb-1" style="letter-spacing: 2px;">SÁBADO, 16 DE ENERO DE 2027</p>
+
+                <!-- Cuenta Regresiva -->
+                <div class="countdown-box" id="countdown">
+                    <div class="time-card"><span id="days">00</span>Días</div>
+                    <div class="time-card"><span id="hours">00</span>Horas</div>
+                    <div class="time-card"><span id="minutes">00</span>Min</div>
+                    <div class="time-card"><span id="seconds">00</span>Seg</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTENIDO DE SECCIONES -->
+        <div class="container py-5" style="max-width: 800px;">
+
+            <!-- Padres y Padrinos -->
+            <div class="card-custom text-center">
+                <h2 class="titulo-seccion">Con la bendición de</h2>
+                <div class="row mt-4">
+                    <div class="col-md-6 mb-3">
+                        <h5 style="color: var(--blush-oscuro);">Mis Padres</h5>
+                        <p>Juan Manuel Flores Guerra<br>Irais Martinez Cruz</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <h5 style="color: var(--blush-oscuro);">Mis Padrinos</h5>
+                        <p>Felix Gonzalez Sarmiento<br>Melina Monserrat Flores Guerra</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ubicaciones -->
+            <div class="card-custom text-center">
+                <h2 class="titulo-seccion">Dónde y Cuándo</h2>
+                
+                <div class="my-4">
+                    <h4>⛪ Ceremonia Religiosa</h4>
+                    <p class="mb-1"><strong>Parroquia de la Divina Providencia</strong></p>
+                    <p class="text-muted">C.Azucena 42S, Tamaulipas, 57300 Cdad. Nezahualcóyotl, Méx.<br>18:00 hrs</p>
+                    <a href="https://maps.app.goo.gl/HHgoZ1aY2Cvcrcri8" target="_blank" class="btn-accion">Ver en Google Maps</a>
+                </div>
+
+                <hr style="border-color: #f0f0f0;">
+
+                <div class="my-4">
+                    <h4>🎉 Recepción</h4>
+                    <p class="mb-1"><strong>Salón de Eventos "Villa ARIZONA Plus"</strong></p>
+                    <p class="text-muted">Av. Nezahualcóyotl 630, Tamaulipas, 57300 Cdad. Nezahualcóyotl, Méx.<br>19:30 hrs</p>
+                    <a href="https://maps.app.goo.gl/P7Hg4dN1gZYd1kyx8" target="_blank" class="btn-accion">Ver en Google Maps</a>
+                </div>
+            </div>
+
+            <!-- Dress Code -->
+            <div class="card-custom text-center">
+                <h2 class="titulo-seccion">Código de Vestimenta</h2>
+                <p class="fs-4">👗 Formal / Etiqueta</p>
+                <p class="text-muted">Nos reservamos el color <strong>Blush / Rosa Palo</strong> para la quinceañera.</p>
+            </div>
+
+            <!-- Mesa de Regalos -->
+            <div class="card-custom text-center">
+                <h2 class="titulo-seccion">Mesa de Regalos</h2>
+                <p>El mejor regalo es tu presencia, pero si deseas hacerme un presente, puedes considerar la opción de lluvia de sobres o transferencia.</p>
+                <p class="fw-bold" style="color: var(--blush-oscuro);">✉️ Lluvia de Sobres en la Recepción</p>
+            </div>
+
+            <!-- Confirmación de Asistencia -->
+            <div class="card-custom text-center" style="background: var(--blush-principal); color: white;">
+                <h2 class="titulo-seccion" style="color: white;">Confirmación de Asistencia</h2>
+                <p>Por favor confirma tu asistencia antes del 15 de Diciembre de 2026 para esperarte con mucho gusto.</p>
+                <a href="https://wa.me/521XXXXXXXXXX?text=Hola!%20Confirmo%20mi%20asistencia%20para%20los%20XV%20de%20Jimena" class="btn-accion" style="background-color: white; color: var(--blush-oscuro); border-color: white;">
+                    Confirmar por WhatsApp
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- SCRIPTS -->
     <script>
-        const targetDate = new Date("2027-01-16T17:00:00").getTime();
+        // Función para abrir el sobre
+        function abrirSobre() {
+            const sobre = document.getElementById("pantalla-sobre");
+            sobre.classList.add("open");
+        }
+
+        // Cuenta Regresiva (16 de Enero de 2027 a las 18:00 hrs)
+        const targetDate = new Date("2027-01-16T18:00:00").getTime();
 
         function updateCountdown() {
             const now = new Date().getTime();
